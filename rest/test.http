@@ -1,0 +1,57 @@
+###
+### EXTENSAO REST Client humao.rest-client
+### Para testar as rotas sem precisa de postman ou insomnia
+###
+@base_url = http://localhost:3333
+
+### LISTAR TRANSACOES
+# @name transactions
+GET {{base_url}}/transactions/
+Content-Type: application/jsonyarnyar
+
+
+### CRIAR TRANSACOES
+POST {{base_url}}/transactions/
+Content-Type: application/json
+
+{
+  "title":"compra de sapato",
+  "value": 34.00,
+  "category": "bens de consumo",
+  "type": "income"
+}
+
+### CRIAR TRANSACOES
+POST {{base_url}}/transactions/
+Content-Type: application/json
+
+{
+  "title":"compra de comida",
+  "value": 12.01,
+  "category": "alimento",
+  "type": "outcome"
+}
+
+
+### DELETAR REGISTRO ESPECIFICO
+DELETE {{base_url}}/transactions/dc946483-6f84-4cca-b956-05f7afa5a5ba
+Content-Type: application/json
+
+
+### DELETAR PRIMEIRO REGISTRO DA LISTA
+### PRECISA EXECUTAR PRIMEIRO - LISTAR TRANSACOES -
+### PARA PODER ARMAZENAR OS DADOS
+DELETE {{base_url}}/transactions/{{transactions.response.body.$.[0].id}}
+Content-Type: application/json
+
+
+### ENVIAR ARQUIVO E IMPORTAR OS DADOS
+POST {{base_url}}/transactions/import
+Content-Type: multipart/form-data; boundary=MeuArquivo
+
+--MeuArquivo
+Content-Disposition: form-data; name="file"; filename="file.csv"
+Content-Type: text/csv
+
+< ../assets/file.csv
+--MeuArquivo--
